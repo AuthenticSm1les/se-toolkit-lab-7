@@ -27,11 +27,11 @@ Wiki files are **reference documents** — one file per tool or concept. They ar
 
 <h2>Table of contents</h2>
 
-- [What is `<tool or concept name>`](#what-is-tool-or-concept-name)
+- [About `<tool or concept name>`](#about-tool-or-concept-name)
 - [Section 2](#section-2)
 - ...
 
-## What is `<tool or concept name>`
+## About `<tool or concept name>`
 
 <1–3 sentences explaining what this tool or concept is and how it is used in this project.>
 
@@ -49,7 +49,7 @@ Docs:
 ### 1.4. Key rules
 
 - Each section is self-contained and linkable (task docs link to `wiki/<file>.md#<section>`).
-- Start every wiki file with a `## What is <tool or concept>` section that defines the tool/concept in 1–3 sentences and includes a link to official docs. The heading may use natural phrasing (articles, singular/plural) that differs from the H1 title — e.g., `# Computer Networks` → `## What is a computer network`.
+- Start every wiki file with a `## About <tool, concept, procedure>` section that defines the tool/concept in 1–3 sentences and includes a link to official docs. The heading may use natural phrasing (articles, singular/plural) that differs from the H1 title — e.g., `# Computer Networks` → `## About computer networks`.
 - Provide both explanation and how-to instructions.
 - Link to other wiki sections whenever a concept appears for the first time in a section (see [Links and cross-references](./common.md#48-links-and-cross-references)).
 - **Connect the dots.** Wiki files are often read in isolation — readers jump in from a task link. Don't just define a concept; situate it. Use cross-links and connecting wording (e.g., `` `X` works together with `Y` to… ``, `` When using `Z`, you will also need… ``) to help readers understand how concepts relate to each other and to the broader system.
@@ -114,7 +114,7 @@ Depending on the lab, consider creating wiki files for:
 
 ## 2. `vs-code.md` section structure pattern
 
-Each section in `vs-code.md` should follow this pattern (other wiki files use the simpler "What is" + "Docs:" structure described above):
+Each section in `vs-code.md` should follow this pattern (other wiki files use the simpler "About" + "Docs:" structure described above):
 
 ```markdown
 ## <Feature Name>
