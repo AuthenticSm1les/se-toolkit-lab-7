@@ -3,6 +3,7 @@
 <h2>Table of contents</h2>
 
 - [What is `Qwen Code`](#what-is-qwen-code)
+- [`Qwen` API](#qwen-api)
 - [`Qwen Code` credentials file](#qwen-code-credentials-file)
 - [Set up the `Qwen Code` (LOCAL)](#set-up-the-qwen-code-local)
   - [Set up the `Qwen Code` CLI (LOCAL)](#set-up-the-qwen-code-cli-local)
@@ -32,9 +33,17 @@ See:
 - [Set up the `Qwen Code` CLI (REMOTE)](./qwen-code-api.md#set-up-the-qwen-code-cli-remote).
 - [Set up the `Qwen Code` API (REMOTE)](./qwen-code-api.md).
 
+## `Qwen` API
+
+An [`OpenAI`-compatible API](./llm.md#openai-compatible-api) that provides access to the `Qwen` family of [LLMs](./llm.md#model).
+
+Docs:
+
+- [`Qwen` API](https://qwen.ai/apiplatform).
+
 ## `Qwen Code` credentials file
 
-A file where `Qwen Code` stores the credentials for the [user](./operating-system.md#user) to authenticate in the [`Qwen` API](https://qwen.ai/apiplatform).
+A file where `Qwen Code` stores credentials for the [user](./operating-system.md#user) to authenticate in the [`Qwen` API](#qwen-api).
 
 Path: `~/.qwen/oauth_creds.json`.
 
