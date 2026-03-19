@@ -86,13 +86,17 @@ Path: `~/.qwen/oauth_creds.json`.
 
 4. [Open a chat with `Qwen Code` using the CLI](./qwen-code.md#open-a-chat-with-qwen-code-using-the-cli).
 
-5. Type `/auth` in the chat to [authenticate via Qwen OAuth](https://github.com/QwenLM/qwen-code?tab=readme-ov-file#authentication).
+5. Type `/auth` in the chat.
 
-6. Open the link in a browser to complete the authentication procedure.
+6. Select `Qwen Oauth` using the keyboard (`UpArrow` and `DownArrow`).
 
-7. [Quit the chat with `Qwen Code`](./qwen-code.md#quit-the-chat-with-qwen-code).
+7. Press `Enter` to [authenticate via Qwen OAuth](https://github.com/QwenLM/qwen-code?tab=readme-ov-file#authentication).
 
-8. [Check the `Qwen Code` credentials file](#check-the-qwen-code-credentials-file).
+8. Open the link in a browser to complete the authentication procedure.
+
+9. [Quit the chat with `Qwen Code`](./qwen-code.md#quit-the-chat-with-qwen-code).
+
+10. [Check the `Qwen Code` credentials file](#check-the-qwen-code-credentials-file).
 
 ### Set up the `Qwen Code Companion` extension for `VS Code`
 
