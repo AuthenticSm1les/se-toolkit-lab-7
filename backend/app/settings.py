@@ -15,7 +15,9 @@ class Settings(BaseSettings):
 
     cors_origins: list[str] = Field(default=[], alias="CORS_ORIGINS")
 
-    enable_interactions: bool = Field(default=False, alias="BACKEND_ENABLE_INTERACTIONS")
+    enable_interactions: bool = Field(
+        default=False, alias="BACKEND_ENABLE_INTERACTIONS"
+    )
     enable_learners: bool = Field(default=False, alias="BACKEND_ENABLE_LEARNERS")
 
     autochecker_api_url: str = Field(
