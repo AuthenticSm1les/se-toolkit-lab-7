@@ -9,11 +9,20 @@ Usage:
 
 import argparse
 import asyncio
+import logging
 import sys
 from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
 from handlers.start import handle_start
 from handlers.help import handle_help
@@ -39,6 +48,8 @@ async def run_test_mode(command: str) -> None:
     # Strip leading slash if present
     cmd = command.lstrip("/")
 
+    logger.info(f"Running test command: /{cmd}")
+
     # Route to appropriate handler
     if cmd == "start":
         response = await handle_start()
@@ -56,11 +67,13 @@ async def run_test_mode(command: str) -> None:
     else:
         response = f"Command /{cmd} not implemented yet"
 
+    logger.info(f"Response: {response}")
     print(response)
 
 
 async def run_production_mode() -> None:
     """Run the bot in production mode (Telegram)."""
+    logger.info("Starting bot in production mode")
     # TODO: Task 1 - implement Telegram connection
     print("Production mode not implemented yet")
 
@@ -76,4 +89,10 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Bot stopped by user")
+    except Exception as e:
+        logger.exception(f"Bot crashed: {e}")
+        raise
