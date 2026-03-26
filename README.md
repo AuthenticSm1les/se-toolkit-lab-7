@@ -95,3 +95,74 @@ By the end of this lab, you should be able to say:
 ### Optional
 
 1. [Flutter Web Chatbot](./lab/tasks/optional/task-1.md)
+
+## Deploy
+
+This section documents how to deploy the bot using Docker alongside the backend.
+
+### Prerequisites
+
+- VM access with Docker installed
+- `.env.docker.secret` file with required credentials (see below)
+
+### Environment variables
+
+The bot requires the following environment variables in `.env.docker.secret`:
+
+| Variable | Description | Example |
+| -------- | ----------- | ------- |
+| `BOT_TOKEN` | Telegram bot token from @BotFather | `123456:ABC-DEF...` |
+| `LMS_API_KEY` | API key for the LMS backend | `<key>` |
+| `LLM_API_KEY` | API key for the LLM service | `<key>` |
+| `LLM_API_BASE_URL` | LLM API endpoint | `https://api.openai.com/v1` |
+| `LLM_API_MODEL` | LLM model to use | `gpt-4o-mini` |
+| `BACKEND_CONTAINER_PORT` | Backend port inside Docker | `8000` |
+
+> **Note**: The bot uses `http://backend:8000` to reach the backend (Docker service name), not `localhost:42002`.
+
+### Build and start
+
+```bash
+cd ~/se-toolkit-lab-7
+
+# Stop any running nohup bot process
+pkill -f "bot.py" 2>/dev/null
+
+# Build and start all services (backend, postgres, bot)
+docker compose --env-file .env.docker.secret up --build -d
+
+# Check status
+docker compose --env-file .env.docker.secret ps
+```
+
+### Verify deployment
+
+```bash
+# Check bot container logs
+docker compose --env-file .env.docker.secret logs bot --tail 20
+
+# Verify backend is still healthy
+curl -sf http://localhost:42002/docs
+
+# Test bot in Telegram
+# Send: /start, /health, /labs, "what labs are available?"
+```
+
+### Troubleshooting
+
+| Symptom | Solution |
+| ------- | -------- |
+| Bot container restarting | Check logs: `docker compose logs bot` — usually missing env var or import error |
+| `/health` fails | Ensure `LMS_API_BASE_URL=http://backend:8000` (not `localhost`) |
+| LLM queries fail | `LLM_API_BASE_URL` must use `host.docker.internal` if LLM is on host |
+| Build fails at `uv sync` | Ensure `uv.lock` is copied in Dockerfile |
+
+### Stop and cleanup
+
+```bash
+# Stop all services
+docker compose --env-file .env.docker.secret down
+
+# Remove volumes (optional, deletes postgres data)
+docker compose --env-file .env.docker.secret down -v
+```
