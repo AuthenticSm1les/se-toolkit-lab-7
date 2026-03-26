@@ -10,11 +10,20 @@ Usage:
 
 import argparse
 import asyncio
+import logging
 import sys
 from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
 from handlers.commands.start import handle_start
 from handlers.commands.help import handle_help
@@ -38,6 +47,8 @@ def parse_args() -> argparse.Namespace:
 
 async def run_test_mode(message: str) -> None:
     """Run a command or message in test mode and print the response."""
+    logger.info(f"Running test: {message}")
+
     # Strip leading slash if present (slash commands)
     if message.startswith("/"):
         cmd = message.lstrip("/")
@@ -62,11 +73,13 @@ async def run_test_mode(message: str) -> None:
         # Natural language message - use intent router
         response = await route_intent(message)
 
+    logger.info(f"Response: {response}")
     print(response)
 
 
 async def run_production_mode() -> None:
     """Run the bot in production mode (Telegram)."""
+    logger.info("Starting bot in production mode")
     # TODO: Task 1 - implement Telegram connection
     print("Production mode not implemented yet")
 
@@ -82,4 +95,10 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Bot stopped by user")
+    except Exception as e:
+        logger.exception(f"Bot crashed: {e}")
+        raise
