@@ -15,11 +15,11 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
 
-from handlers.start import handle_start
-from handlers.help import handle_help
-from handlers.health import handle_health
-from handlers.labs import handle_labs
-from handlers.scores import handle_scores
+from handlers.commands.start import handle_start
+from handlers.commands.help import handle_help
+from handlers.commands.health import handle_health
+from handlers.commands.labs import handle_labs
+from handlers.commands.scores import handle_scores
 
 
 def parse_args() -> argparse.Namespace:
