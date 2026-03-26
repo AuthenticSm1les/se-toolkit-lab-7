@@ -3,8 +3,9 @@
 Telegram bot entry point with --test mode.
 
 Usage:
-    uv run bot.py --test "/start"    # Test mode: prints response to stdout
-    uv run bot.py                    # Production: connects to Telegram
+    uv run bot.py --test "/start"           # Test mode: slash commands
+    uv run bot.py --test "hello"            # Test mode: natural language
+    uv run bot.py                           # Production: connects to Telegram
 """
 
 import argparse
@@ -20,6 +21,7 @@ from handlers.commands.help import handle_help
 from handlers.commands.health import handle_health
 from handlers.commands.labs import handle_labs
 from handlers.commands.scores import handle_scores
+from handlers.intent_router import route_intent
 
 
 def parse_args() -> argparse.Namespace:
@@ -28,33 +30,37 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--test",
         type=str,
-        metavar="COMMAND",
-        help="Test mode: run a command and print response to stdout",
+        metavar="MESSAGE",
+        help="Test mode: run a command/message and print response to stdout",
     )
     return parser.parse_args()
 
 
-async def run_test_mode(command: str) -> None:
-    """Run a command in test mode and print the response."""
-    # Strip leading slash if present
-    cmd = command.lstrip("/")
+async def run_test_mode(message: str) -> None:
+    """Run a command or message in test mode and print the response."""
+    # Strip leading slash if present (slash commands)
+    if message.startswith("/"):
+        cmd = message.lstrip("/")
 
-    # Route to appropriate handler
-    if cmd == "start":
-        response = await handle_start()
-    elif cmd == "help":
-        response = await handle_help()
-    elif cmd == "health":
-        response = await handle_health()
-    elif cmd == "labs":
-        response = await handle_labs()
-    elif cmd.startswith("scores"):
-        # Extract lab argument if present
-        parts = cmd.split(maxsplit=1)
-        lab = parts[1] if len(parts) > 1 else "unknown"
-        response = await handle_scores(lab)
+        # Route to appropriate handler
+        if cmd == "start":
+            response = await handle_start()
+        elif cmd == "help":
+            response = await handle_help()
+        elif cmd == "health":
+            response = await handle_health()
+        elif cmd == "labs":
+            response = await handle_labs()
+        elif cmd.startswith("scores"):
+            # Extract lab argument if present
+            parts = cmd.split(maxsplit=1)
+            lab = parts[1] if len(parts) > 1 else ""
+            response = await handle_scores(lab)
+        else:
+            response = f"Command /{cmd} not implemented yet. Try natural language!"
     else:
-        response = f"Command /{cmd} not implemented yet"
+        # Natural language message - use intent router
+        response = await route_intent(message)
 
     print(response)
 
